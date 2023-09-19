@@ -131,14 +131,14 @@ public class UsuarioBD {
 
             PreparedStatement pst = cn.prepareStatement(sql);
 
-            pst.setString(1, u.getuDni());
-            pst.setString(2, u.getuNombre());
-            pst.setString(3, u.getuApellidos());
-            pst.setString(4, u.getuDireccion());
-            pst.setString(5, u.getuClave());
-            pst.setString(6, u.getuCelular());
-            pst.setInt(7, u.getuTipo());
-            pst.setString(8, u.getTienda());
+            pst.setString(1, u.getuNombre());
+            pst.setString(2, u.getuApellidos());
+            pst.setString(3, u.getuDireccion());
+            pst.setString(4, u.getuClave());
+            pst.setString(5, u.getuCelular());
+            pst.setInt(6, u.getuTipo());
+            pst.setString(7, u.getTienda());
+            pst.setString(8, u.getuDni());
 
             rpta = pst.executeUpdate() == 1 ? true : false;
 
