@@ -38,7 +38,7 @@ public class Usuario_IU extends javax.swing.JInternalFrame {
 
         txtNombres.setText("");
         txtApellidos.setText("");
-        txtDireccion.requestFocus();
+        txtDireccion.setText("");
         txtCantidad.setText("");
         txtCelular.setText("");
         txtClave.setText("");
