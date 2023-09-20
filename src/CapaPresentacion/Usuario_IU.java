@@ -32,6 +32,8 @@ public class Usuario_IU extends javax.swing.JInternalFrame {
         initComponents();
         cargarTipoUsuario();
         reportar_usuarios();
+        
+        
     }
 
     public void limpiar() {
@@ -43,7 +45,7 @@ public class Usuario_IU extends javax.swing.JInternalFrame {
         txtCelular.setText("");
         txtClave.setText("");
         txtDni.setText("");
-        txtId_tipo_usuario.setText("");
+        cmbTipoUsuario.setSelectedItem("");
 
     }
 
@@ -580,7 +582,7 @@ public class Usuario_IU extends javax.swing.JInternalFrame {
 
     private void tabla_reporte_usuariosMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabla_reporte_usuariosMousePressed
         // TODO add your handling code here:
-        if (evt.getClickCount() == 2) {
+        if (evt.getClickCount() == 1) {
             int fila_seleccionada = tabla_reporte_usuarios.getSelectedRow();
 
             txtDni.setText(tabla_reporte_usuarios.getValueAt(fila_seleccionada, 0).toString());
@@ -613,9 +615,9 @@ public class Usuario_IU extends javax.swing.JInternalFrame {
                                     oUsuario.setuDni(txtDni.getText().toUpperCase().trim());
                                     oUsuario.setuNombre(txtNombres.getText().toUpperCase().trim());
                                     oUsuario.setuApellidos(txtApellidos.getText().toUpperCase().trim());
-                                    oUsuario.setuDireccion(txtDireccion.getText().toUpperCase().trim());
-                                    oUsuario.setuClave(txtClave.getText().toUpperCase().trim());
-                                    oUsuario.setuCelular(txtCelular.getText());
+                                    oUsuario.setuDireccion(txtDireccion.getText().toUpperCase());
+                                    oUsuario.setuClave(txtClave.getText());
+                                    oUsuario.setuCelular(txtCelular.getText().toUpperCase());
                                     oUsuario.setuTipo(Integer.parseInt(txtId_tipo_usuario.getText()));
                                     oUsuario.setTienda(cmbTienda.getSelectedItem().toString());
 
@@ -854,8 +856,8 @@ public class Usuario_IU extends javax.swing.JInternalFrame {
 
     private void txtNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombresKeyTyped
         // TODO add your handling code here:
-         char type = evt.getKeyChar();
-        
+        char type = evt.getKeyChar();
+
         if (!Character.isLetter(type) && type != KeyEvent.VK_SPACE) {
             getToolkit().beep();
             evt.consume();
@@ -864,8 +866,8 @@ public class Usuario_IU extends javax.swing.JInternalFrame {
 
     private void txtApellidosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellidosKeyTyped
         // TODO add your handling code here:
-         char type = evt.getKeyChar();
-        
+        char type = evt.getKeyChar();
+
         if (!Character.isLetter(type) && type != KeyEvent.VK_SPACE) {
             getToolkit().beep();
             evt.consume();
@@ -874,27 +876,43 @@ public class Usuario_IU extends javax.swing.JInternalFrame {
 
     private void txtDireccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDireccionKeyTyped
         // TODO add your handling code here:
-       
+
     }//GEN-LAST:event_txtDireccionKeyTyped
 
     private void txtBuscarApellidosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarApellidosKeyPressed
         // TODO add your handling code here:
-        
-          if (evt.getExtendedKeyCode() == KeyEvent.VK_ENTER) {
-            txtDni.requestFocus();
+        try {
+            setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+            DefaultTableModel tabla_temporal;
+
+            String apellidos = txtBuscarApellidos.getText();
+
+            UsuarioBD oUsuarioBD = new UsuarioBD();
+            tabla_temporal = oUsuarioBD.buscarUsuario(apellidos);
+            tabla_reporte_usuarios.setModel(tabla_temporal);
+
+            int canLista = tabla_temporal.getRowCount();
+            txtCantidad.setText("" + canLista);
+
+            setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        } catch (Exception ex) {
+            setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+            ex.printStackTrace();
+
         }
     }//GEN-LAST:event_txtBuscarApellidosKeyPressed
 
     private void cmbTipoUsuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmbTipoUsuarioKeyPressed
         // TODO add your handling code here:
-          if (evt.getExtendedKeyCode() == KeyEvent.VK_ENTER) {
+        if (evt.getExtendedKeyCode() == KeyEvent.VK_ENTER) {
             cmbTienda.requestFocus();
         }
     }//GEN-LAST:event_cmbTipoUsuarioKeyPressed
 
     private void cmbTiendaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmbTiendaKeyPressed
         // TODO add your handling code here:
-          if (evt.getExtendedKeyCode() == KeyEvent.VK_ENTER) {
+        if (evt.getExtendedKeyCode() == KeyEvent.VK_ENTER) {
             btnRegistrar.doClick();
         }
     }//GEN-LAST:event_cmbTiendaKeyPressed
