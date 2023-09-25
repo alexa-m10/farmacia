@@ -9,7 +9,6 @@ import CapaNegocio.TipoUsuarioBD;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import static jdk.internal.agent.Agent.error;
 
 /**
  *
