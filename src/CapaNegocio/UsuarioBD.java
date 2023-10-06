@@ -5,11 +5,15 @@
 package CapaNegocio;
 
 import CapaConexion.Conexion;
+import CapaDatos.Turno;
 import CapaDatos.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -211,5 +215,38 @@ public class UsuarioBD {
         }
         return tabla_temporal;
     }
+
+    public List<Usuario> login(String dni, String clave) {
+        List<Usuario> lista = new ArrayList<>();
+        sql = "SELECT uDni,uNombre,uApellidos,uDireccion,uClave,uCelular,idtipousuario,tienda FROM usuario "
+                + "WHERE uDni=?  AND uClave=? ";
+        try {
+            PreparedStatement pst = cn.prepareStatement(sql);
+
+            pst.setString(1, dni);
+            pst.setString(2, clave);
+
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                Usuario objeto_usuario = new Usuario();
+                objeto_usuario.setuDni(rs.getString(1));
+                objeto_usuario.setuNombre(rs.getString(2));
+                objeto_usuario.setuApellidos(rs.getString(3));
+                objeto_usuario.setuDireccion(rs.getString(4));
+                objeto_usuario.setuClave(rs.getString(5));
+                objeto_usuario.setuCelular(rs.getString(6));
+                objeto_usuario.setuTipo(rs.getInt(7));
+                objeto_usuario.setTienda(rs.getString(8));
+
+                lista.add(objeto_usuario);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error en el login");
+        }
+        return lista;
+    }
+    
+    
+    
 
 }
